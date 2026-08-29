@@ -101,7 +101,7 @@ export default function TransactionForm({ transaction, categories, userId, onClo
         placeholder="0.00"
         error={errors.amount}
         required
-        icon={<i className="fa-solid fa-dollar-sign"></i>}
+        icon={<i className="fa-solid fa-money-bill-wave"></i>}
         min="0"
         step="0.01"
       />

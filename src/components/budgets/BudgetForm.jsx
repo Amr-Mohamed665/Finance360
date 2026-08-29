@@ -93,7 +93,7 @@ export default function BudgetForm({ budget, categories, userId, month, existing
 
       <Input
         id="budget-amount"
-        label="Monthly Limit ($)"
+        label="Monthly Limit (EGP)"
         type="number"
         value={form.amount}
         onChange={handleChange('amount')}

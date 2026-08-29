@@ -1,10 +1,10 @@
 /**
- * Format a number as USD currency.
+ * Format a number as EGP currency.
  */
 export function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-EG', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'EGP',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);

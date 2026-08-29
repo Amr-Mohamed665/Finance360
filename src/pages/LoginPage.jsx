@@ -104,11 +104,6 @@ export default function LoginPage() {
               Create one
             </Link>
           </p>
-
-          <div className="auth-form__demo">
-            <p className="auth-form__demo-label">Demo credentials</p>
-            <code>john@example.com / Password123</code>
-          </div>
         </form>
       </div>
     </div>

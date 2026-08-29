@@ -87,20 +87,20 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
       <div className="savings-form__row">
         <Input
           id="savings-target"
-          label="Target Amount ($)"
+          label="Target Amount (EGP)"
           type="number"
           value={form.targetAmount}
           onChange={handleChange('targetAmount')}
           placeholder="e.g., 2000"
           error={errors.targetAmount}
           required
-          icon={<i className="fa-solid fa-dollar-sign"></i>}
+          icon={<i className="fa-solid fa-money-bill-wave"></i>}
           min="1"
         />
 
         <Input
           id="savings-current"
-          label="Current Savings ($)"
+          label="Current Savings (EGP)"
           type="number"
           value={form.currentAmount}
           onChange={handleChange('currentAmount')}
