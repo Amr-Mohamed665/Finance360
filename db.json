@@ -1,0 +1,525 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "Password123"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "password": "Password123"
+    },
+    {
+      "name": "Amr Rashidy",
+      "email": "amr.rashidy2025@gmail.com",
+      "password": "Amr@2020",
+      "id": "njWGH3j0PcU"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Food",
+      "type": "expense",
+      "icon": "fa-solid fa-utensils",
+      "color": "#FF6B6B"
+    },
+    {
+      "id": "2",
+      "name": "Transportation",
+      "type": "expense",
+      "icon": "fa-solid fa-car",
+      "color": "#4ECDC4"
+    },
+    {
+      "id": "3",
+      "name": "Bills",
+      "type": "expense",
+      "icon": "fa-solid fa-file-invoice-dollar",
+      "color": "#45B7D1"
+    },
+    {
+      "id": "4",
+      "name": "Shopping",
+      "type": "expense",
+      "icon": "fa-solid fa-bag-shopping",
+      "color": "#96CEB4"
+    },
+    {
+      "id": "5",
+      "name": "Entertainment",
+      "type": "expense",
+      "icon": "fa-solid fa-film",
+      "color": "#FFEAA7"
+    },
+    {
+      "id": "6",
+      "name": "Health",
+      "type": "expense",
+      "icon": "fa-solid fa-pills",
+      "color": "#DDA0DD"
+    },
+    {
+      "id": "7",
+      "name": "Education",
+      "type": "expense",
+      "icon": "fa-solid fa-graduation-cap",
+      "color": "#98D8C8"
+    },
+    {
+      "id": "8",
+      "name": "Other",
+      "type": "expense",
+      "icon": "fa-solid fa-box-open",
+      "color": "#B8B8B8"
+    },
+    {
+      "id": "9",
+      "name": "Salary",
+      "type": "income",
+      "icon": "fa-solid fa-money-bill-wave",
+      "color": "#2ECC71"
+    },
+    {
+      "id": "10",
+      "name": "Freelance",
+      "type": "income",
+      "icon": "fa-solid fa-laptop-code",
+      "color": "#3498DB"
+    },
+    {
+      "id": "11",
+      "name": "Investment",
+      "type": "income",
+      "icon": "fa-solid fa-chart-line",
+      "color": "#9B59B6"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "userId": "1",
+      "type": "income",
+      "amount": 5500,
+      "categoryId": "9",
+      "description": "Monthly Salary",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "type": "income",
+      "amount": 1200,
+      "categoryId": "10",
+      "description": "Web Design Project",
+      "date": "2026-07-05"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "type": "expense",
+      "amount": 320,
+      "categoryId": "1",
+      "description": "Grocery shopping",
+      "date": "2026-07-03"
+    },
+    {
+      "id": "4",
+      "userId": "1",
+      "type": "expense",
+      "amount": 150,
+      "categoryId": "2",
+      "description": "Gas and parking",
+      "date": "2026-07-04"
+    },
+    {
+      "id": "5",
+      "userId": "1",
+      "type": "expense",
+      "amount": 200,
+      "categoryId": "3",
+      "description": "Electricity bill",
+      "date": "2026-07-06"
+    },
+    {
+      "id": "6",
+      "userId": "1",
+      "type": "expense",
+      "amount": 180,
+      "categoryId": "3",
+      "description": "Internet and phone",
+      "date": "2026-07-07"
+    },
+    {
+      "id": "7",
+      "userId": "1",
+      "type": "expense",
+      "amount": 250,
+      "categoryId": "4",
+      "description": "New running shoes",
+      "date": "2026-07-10"
+    },
+    {
+      "id": "8",
+      "userId": "1",
+      "type": "expense",
+      "amount": 60,
+      "categoryId": "5",
+      "description": "Movie tickets",
+      "date": "2026-07-12"
+    },
+    {
+      "id": "9",
+      "userId": "1",
+      "type": "expense",
+      "amount": 90,
+      "categoryId": "6",
+      "description": "Pharmacy",
+      "date": "2026-07-15"
+    },
+    {
+      "id": "10",
+      "userId": "1",
+      "type": "expense",
+      "amount": 350,
+      "categoryId": "1",
+      "description": "Restaurant dinners",
+      "date": "2026-07-18"
+    },
+    {
+      "id": "11",
+      "userId": "1",
+      "type": "expense",
+      "amount": 120,
+      "categoryId": "7",
+      "description": "Online course subscription",
+      "date": "2026-07-20"
+    },
+    {
+      "id": "12",
+      "userId": "1",
+      "type": "income",
+      "amount": 500,
+      "categoryId": "11",
+      "description": "Stock dividends",
+      "date": "2026-07-22"
+    },
+    {
+      "id": "13",
+      "userId": "1",
+      "type": "expense",
+      "amount": 280,
+      "categoryId": "1",
+      "description": "Weekly groceries",
+      "date": "2026-07-25"
+    },
+    {
+      "id": "14",
+      "userId": "1",
+      "type": "expense",
+      "amount": 75,
+      "categoryId": "2",
+      "description": "Uber rides",
+      "date": "2026-07-28"
+    },
+    {
+      "id": "15",
+      "userId": "1",
+      "type": "expense",
+      "amount": 45,
+      "categoryId": "5",
+      "description": "Streaming services",
+      "date": "2026-07-30"
+    },
+    {
+      "id": "16",
+      "userId": "1",
+      "type": "income",
+      "amount": 5500,
+      "categoryId": "9",
+      "description": "Monthly Salary",
+      "date": "2026-08-01"
+    },
+    {
+      "id": "17",
+      "userId": "1",
+      "type": "income",
+      "amount": 1800,
+      "categoryId": "10",
+      "description": "Mobile App Freelance",
+      "date": "2026-08-03"
+    },
+    {
+      "id": "18",
+      "userId": "1",
+      "type": "expense",
+      "amount": 410,
+      "categoryId": "1",
+      "description": "Grocery shopping",
+      "date": "2026-08-02"
+    },
+    {
+      "id": "19",
+      "userId": "1",
+      "type": "expense",
+      "amount": 180,
+      "categoryId": "2",
+      "description": "Gas and maintenance",
+      "date": "2026-08-04"
+    },
+    {
+      "id": "20",
+      "userId": "1",
+      "type": "expense",
+      "amount": 220,
+      "categoryId": "3",
+      "description": "Electricity bill",
+      "date": "2026-08-05"
+    },
+    {
+      "id": "21",
+      "userId": "1",
+      "type": "expense",
+      "amount": 185,
+      "categoryId": "3",
+      "description": "Internet and phone",
+      "date": "2026-08-06"
+    },
+    {
+      "id": "22",
+      "userId": "1",
+      "type": "expense",
+      "amount": 340,
+      "categoryId": "4",
+      "description": "New headphones and accessories",
+      "date": "2026-08-08"
+    },
+    {
+      "id": "23",
+      "userId": "1",
+      "type": "expense",
+      "amount": 95,
+      "categoryId": "5",
+      "description": "Concert tickets",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "24",
+      "userId": "1",
+      "type": "expense",
+      "amount": 150,
+      "categoryId": "6",
+      "description": "Doctor visit",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "25",
+      "userId": "1",
+      "type": "expense",
+      "amount": 380,
+      "categoryId": "1",
+      "description": "Restaurant and takeout",
+      "date": "2026-08-15"
+    },
+    {
+      "id": "26",
+      "userId": "1",
+      "type": "expense",
+      "amount": 200,
+      "categoryId": "7",
+      "description": "React online course",
+      "date": "2026-08-18"
+    },
+    {
+      "id": "27",
+      "userId": "1",
+      "type": "income",
+      "amount": 650,
+      "categoryId": "11",
+      "description": "Stock dividends",
+      "date": "2026-08-20"
+    },
+    {
+      "id": "28",
+      "userId": "1",
+      "type": "expense",
+      "amount": 300,
+      "categoryId": "1",
+      "description": "Weekly groceries",
+      "date": "2026-08-22"
+    },
+    {
+      "id": "29",
+      "userId": "1",
+      "type": "expense",
+      "amount": 110,
+      "categoryId": "2",
+      "description": "Uber and metro",
+      "date": "2026-08-25"
+    },
+    {
+      "id": "30",
+      "userId": "1",
+      "type": "expense",
+      "amount": 45,
+      "categoryId": "5",
+      "description": "Streaming services",
+      "date": "2026-08-27"
+    },
+    {
+      "id": "31",
+      "userId": "1",
+      "type": "expense",
+      "amount": 85,
+      "categoryId": "8",
+      "description": "Gift for friend",
+      "date": "2026-08-28"
+    },
+    {
+      "id": "32",
+      "userId": "2",
+      "type": "income",
+      "amount": 4200,
+      "categoryId": "9",
+      "description": "Monthly Salary",
+      "date": "2026-08-01"
+    },
+    {
+      "id": "33",
+      "userId": "2",
+      "type": "expense",
+      "amount": 280,
+      "categoryId": "1",
+      "description": "Groceries",
+      "date": "2026-08-05"
+    },
+    {
+      "id": "34",
+      "userId": "2",
+      "type": "expense",
+      "amount": 120,
+      "categoryId": "2",
+      "description": "Bus pass",
+      "date": "2026-08-06"
+    },
+    {
+      "id": "35",
+      "userId": "2",
+      "type": "expense",
+      "amount": 160,
+      "categoryId": "3",
+      "description": "Utilities",
+      "date": "2026-08-10"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "1",
+      "userId": "1",
+      "categoryId": "1",
+      "amount": 1000,
+      "month": "2026-08"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "categoryId": "2",
+      "amount": 400,
+      "month": "2026-08"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "categoryId": "3",
+      "amount": 500,
+      "month": "2026-08"
+    },
+    {
+      "id": "4",
+      "userId": "1",
+      "categoryId": "4",
+      "amount": 400,
+      "month": "2026-08"
+    },
+    {
+      "id": "5",
+      "userId": "1",
+      "categoryId": "5",
+      "amount": 200,
+      "month": "2026-08"
+    },
+    {
+      "id": "6",
+      "userId": "1",
+      "categoryId": "1",
+      "amount": 900,
+      "month": "2026-07"
+    },
+    {
+      "id": "7",
+      "userId": "1",
+      "categoryId": "2",
+      "amount": 350,
+      "month": "2026-07"
+    },
+    {
+      "id": "8",
+      "userId": "1",
+      "categoryId": "3",
+      "amount": 450,
+      "month": "2026-07"
+    },
+    {
+      "id": "9",
+      "userId": "2",
+      "categoryId": "1",
+      "amount": 500,
+      "month": "2026-08"
+    },
+    {
+      "id": "10",
+      "userId": "2",
+      "categoryId": "2",
+      "amount": 200,
+      "month": "2026-08"
+    }
+  ],
+  "savingsGoals": [
+    {
+      "id": "1",
+      "userId": "1",
+      "name": "New Laptop",
+      "targetAmount": 2000,
+      "currentAmount": 1200,
+      "targetDate": "2026-12-31"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "name": "Vacation Fund",
+      "targetAmount": 5000,
+      "currentAmount": 3250,
+      "targetDate": "2027-06-30"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "name": "Emergency Fund",
+      "targetAmount": 10000,
+      "currentAmount": 4500,
+      "targetDate": "2027-12-31"
+    },
+    {
+      "id": "4",
+      "userId": "2",
+      "name": "New Car",
+      "targetAmount": 15000,
+      "currentAmount": 3000,
+      "targetDate": "2027-12-31"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

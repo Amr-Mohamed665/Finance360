@@ -1,0 +1,152 @@
+import { useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTransaction, updateTransaction } from '../../store/slices/transactionsSlice';
+import Input from '../common/Input';
+import Select from '../common/Select';
+import Button from '../common/Button';
+import './TransactionForm.css';
+
+export default function TransactionForm({ transaction, categories, userId, onClose }) {
+  const isEdit = !!transaction;
+  const dispatch = useDispatch();
+
+  const [form, setForm] = useState({
+    type: transaction?.type || 'expense',
+    amount: transaction?.amount?.toString() || '',
+    categoryId: transaction?.categoryId || '',
+    description: transaction?.description || '',
+    date: transaction?.date || new Date().toISOString().split('T')[0],
+  });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const filteredCategories = useMemo(() => {
+    return categories
+      .filter((c) => c.type === form.type)
+      .map((c) => ({ value: c.id, label: c.name }));
+  }, [categories, form.type]);
+
+  const validate = () => {
+    const errs = {};
+    if (!form.type) errs.type = 'Type is required';
+    if (!form.amount || isNaN(form.amount) || Number(form.amount) <= 0) errs.amount = 'Enter a valid amount';
+    if (!form.categoryId) errs.categoryId = 'Category is required';
+    if (!form.description.trim()) errs.description = 'Description is required';
+    if (!form.date) errs.date = 'Date is required';
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    setSubmitting(true);
+    const payload = {
+      ...form,
+      amount: Number(form.amount),
+      userId,
+    };
+    try {
+      if (isEdit) {
+        await dispatch(updateTransaction({ id: transaction.id, data: payload })).unwrap();
+      } else {
+        await dispatch(addTransaction(payload)).unwrap();
+      }
+      onClose();
+    } catch {
+      /* handled by slice */
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleChange = (field) => (e) => {
+    const value = e.target.value;
+    setForm((prev) => {
+      const next = { ...prev, [field]: value };
+      /* Reset category when type changes */
+      if (field === 'type') next.categoryId = '';
+      return next;
+    });
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: '' }));
+  };
+
+  return (
+    <form className="tx-form" onSubmit={handleSubmit} noValidate>
+      <div className="tx-form__row">
+        <div className="tx-form__type-toggle">
+          <button
+            type="button"
+            className={`tx-form__type-btn ${form.type === 'expense' ? 'tx-form__type-btn--active-expense' : ''}`}
+            onClick={() => handleChange('type')({ target: { value: 'expense' } })}
+          >
+            Expense
+          </button>
+          <button
+            type="button"
+            className={`tx-form__type-btn ${form.type === 'income' ? 'tx-form__type-btn--active-income' : ''}`}
+            onClick={() => handleChange('type')({ target: { value: 'income' } })}
+          >
+            Income
+          </button>
+        </div>
+      </div>
+
+      <Input
+        id="tx-amount"
+        label="Amount"
+        type="number"
+        value={form.amount}
+        onChange={handleChange('amount')}
+        placeholder="0.00"
+        error={errors.amount}
+        required
+        icon={<i className="fa-solid fa-dollar-sign"></i>}
+        min="0"
+        step="0.01"
+      />
+
+      <Select
+        id="tx-category"
+        label="Category"
+        value={form.categoryId}
+        onChange={handleChange('categoryId')}
+        options={filteredCategories}
+        placeholder="Select a category"
+        error={errors.categoryId}
+        required
+      />
+
+      <Input
+        id="tx-description"
+        label="Description"
+        value={form.description}
+        onChange={handleChange('description')}
+        placeholder="What was this transaction for?"
+        error={errors.description}
+        required
+        icon={<i className="fa-solid fa-pen-to-square"></i>}
+      />
+
+      <Input
+        id="tx-date"
+        label="Date"
+        type="date"
+        value={form.date}
+        onChange={handleChange('date')}
+        error={errors.date}
+        required
+        icon={<i className="fa-solid fa-calendar"></i>}
+      />
+
+      <div className="tx-form__actions">
+        <Button type="button" variant="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="primary" disabled={submitting}>
+          {submitting ? 'Saving...' : isEdit ? 'Update' : 'Add Transaction'}
+        </Button>
+      </div>
+    </form>
+  );
+}

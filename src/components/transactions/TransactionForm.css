@@ -1,0 +1,44 @@
+.tx-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.tx-form__row {
+  display: flex;
+  gap: 0.75rem;
+}
+.tx-form__type-toggle {
+  display: flex;
+  width: 100%;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+.tx-form__type-btn {
+  flex: 1;
+  padding: 0.55rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+.tx-form__type-btn--active-expense {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--expense-color);
+}
+.tx-form__type-btn--active-income {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--income-color);
+}
+.tx-form__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
