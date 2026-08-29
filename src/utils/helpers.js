@@ -1,5 +1,5 @@
 /**
- * Format a number as EGP currency.
+ * Format a number as Egyptian Pounds (EGP) currency.
  */
 export function formatCurrency(amount) {
   return new Intl.NumberFormat('en-EG', {

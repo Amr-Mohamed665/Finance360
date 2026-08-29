@@ -2,21 +2,20 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
-import './Sidebar.css';
 
 const navItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: 'fa-solid fa-chart-pie', color: '#6366f1' },
-  { path: '/transactions', label: 'Transactions', icon: 'fa-solid fa-money-bill-transfer', color: '#10b981' },
-  { path: '/budgets', label: 'Budgets', icon: 'fa-solid fa-bullseye', color: '#f43f5e' },
-  { path: '/savings-goals', label: 'Savings Goals', icon: 'fa-solid fa-piggy-bank', color: '#06b6d4' },
-  { path: '/analytics', label: 'Analytics', icon: 'fa-solid fa-chart-line', color: '#a855f7' },
+  { path: '/dashboard',     label: 'Dashboard',     icon: 'fa-solid fa-chart-pie',           color: '#6366f1' },
+  { path: '/transactions',  label: 'Transactions',  icon: 'fa-solid fa-money-bill-transfer',  color: '#10b981' },
+  { path: '/budgets',       label: 'Budgets',       icon: 'fa-solid fa-bullseye',             color: '#f43f5e' },
+  { path: '/savings-goals', label: 'Savings Goals', icon: 'fa-solid fa-piggy-bank',           color: '#06b6d4' },
+  { path: '/analytics',     label: 'Analytics',     icon: 'fa-solid fa-chart-line',           color: '#a855f7' },
 ];
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const dispatch  = useDispatch();
+  const navigate  = useNavigate();
+  const { user }  = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -25,57 +24,91 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Mobile hamburger */}
       <button
-        className="sidebar-toggle"
+        className="fixed top-4 left-4 z-50 flex md:hidden w-10 h-10 items-center justify-center rounded-lg bg-bg-secondary border border-border shadow-md transition-all duration-150 hover:border-border-hover"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
-        <span className={`hamburger ${isOpen ? 'hamburger--active' : ''}`}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
+        <div className="flex flex-col gap-[5px] w-5">
+          <span className={`block h-0.5 bg-text-secondary rounded-full transition-all duration-200 origin-center ${isOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+          <span className={`block h-0.5 bg-text-secondary rounded-full transition-all duration-200 ${isOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block h-0.5 bg-text-secondary rounded-full transition-all duration-200 origin-center ${isOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+        </div>
       </button>
 
-      {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <aside className={`sidebar ${isOpen ? 'sidebar--open' : ''}`}>
-        <div className="sidebar__brand">
-          <span className="sidebar__logo"><i className="fa-solid fa-coins" style={{ color: '#ffd700' }}></i></span>
-          <div className="sidebar__brand-text">
-            <h1 className="sidebar__title">Finance 360</h1>
-            <span className="sidebar__subtitle">Personal Dashboard</span>
+      {/* Sidebar */}
+      <aside
+        className={[
+          'fixed top-0 left-0 h-full z-40 w-64 flex flex-col bg-bg-sidebar border-r border-border transition-transform duration-300 ease-smooth',
+          'md:translate-x-0 md:static md:h-screen',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+        ].join(' ')}
+      >
+        {/* Brand */}
+        <div className="flex items-center gap-3 px-5 py-6 border-b border-border">
+          <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow flex-shrink-0">
+            <i className="fa-solid fa-coins text-white" />
+          </div>
+          <div>
+            <h1 className="text-base font-bold text-text-primary leading-none">Finance 360</h1>
+            <span className="text-xs text-text-muted">Personal Dashboard</span>
           </div>
         </div>
 
-        <nav className="sidebar__nav">
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`
-              }
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                [
+                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 group',
+                  isActive
+                    ? 'bg-accent-primary/15 text-text-primary border border-accent-primary/20 shadow-glow'
+                    : 'text-text-muted hover:bg-bg-hover hover:text-text-secondary border border-transparent',
+                ].join(' ')
+              }
             >
-              <span className="sidebar__link-icon"><i className={item.icon} style={{ color: item.color }}></i></span>
-              <span className="sidebar__link-label">{item.label}</span>
+              <span
+                className="w-8 h-8 flex items-center justify-center rounded-md text-sm flex-shrink-0"
+                style={{ color: item.color, background: `${item.color}18` }}
+              >
+                <i className={item.icon} />
+              </span>
+              <span>{item.label}</span>
             </NavLink>
           ))}
         </nav>
 
-        <div className="sidebar__footer">
-          <div className="sidebar__user">
-            <div className="sidebar__avatar">
+        {/* User + Logout */}
+        <div className="px-3 py-4 border-t border-border flex flex-col gap-2">
+          <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-bg-hover">
+            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
               {user?.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
-            <div className="sidebar__user-info">
-              <span className="sidebar__user-name">{user?.name || 'User'}</span>
-              <span className="sidebar__user-email">{user?.email || ''}</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-text-primary truncate">{user?.name || 'User'}</p>
+              <p className="text-[11px] text-text-muted truncate">{user?.email || ''}</p>
             </div>
           </div>
-          <button className="sidebar__logout" onClick={handleLogout}>
-            <i className="fa-solid fa-right-from-bracket" style={{ color: 'var(--danger)' }}></i> Logout
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-text-muted hover:text-expense hover:bg-expense/10 transition-all duration-150 w-full"
+          >
+            <i className="fa-solid fa-right-from-bracket text-sm" />
+            Logout
           </button>
         </div>
       </aside>

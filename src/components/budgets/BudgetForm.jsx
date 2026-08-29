@@ -4,7 +4,6 @@ import { addBudget, updateBudget } from '../../store/slices/budgetsSlice';
 import Input from '../common/Input';
 import Select from '../common/Select';
 import Button from '../common/Button';
-import './BudgetForm.css';
 
 export default function BudgetForm({ budget, categories, userId, month, existingBudgets, onClose }) {
   const isEdit = !!budget;
@@ -21,7 +20,7 @@ export default function BudgetForm({ budget, categories, userId, month, existing
   const expenseCategories = useMemo(() => {
     return categories
       .filter((c) => c.type === 'expense')
-      .map((c) => ({ value: c.id, label: `${c.icon} ${c.name}` }));
+      .map((c) => ({ value: c.id, label: c.name }));
   }, [categories]);
 
   const validate = () => {
@@ -29,21 +28,14 @@ export default function BudgetForm({ budget, categories, userId, month, existing
     if (!form.categoryId) {
       errs.categoryId = 'Category is required';
     } else if (!isEdit) {
-      // Check if a budget limit already exists for this category in the target month
       const isDuplicate = existingBudgets.some(
         (b) => b.categoryId === form.categoryId && b.month === form.month
       );
-      if (isDuplicate) {
-        errs.categoryId = 'A budget limit already exists for this category this month';
-      }
+      if (isDuplicate) errs.categoryId = 'A budget for this category already exists this month';
     }
-    if (!form.amount || isNaN(form.amount) || Number(form.amount) <= 0) {
-      errs.amount = 'Enter a valid monthly budget limit (greater than 0)';
-    }
-    if (!form.month) {
-      errs.month = 'Month is required';
-    }
-
+    if (!form.amount || isNaN(form.amount) || Number(form.amount) <= 0)
+      errs.amount = 'Enter a valid budget limit (greater than 0)';
+    if (!form.month) errs.month = 'Month is required';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -52,12 +44,7 @@ export default function BudgetForm({ budget, categories, userId, month, existing
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    const payload = {
-      ...form,
-      amount: Number(form.amount),
-      userId,
-    };
-
+    const payload = { ...form, amount: Number(form.amount), userId };
     try {
       if (isEdit) {
         await dispatch(updateBudget({ id: budget.id, data: payload })).unwrap();
@@ -65,8 +52,8 @@ export default function BudgetForm({ budget, categories, userId, month, existing
         await dispatch(addBudget(payload)).unwrap();
       }
       onClose();
-    } catch (err) {
-      // Error is stored globally or handled in UI
+    } catch {
+      /* handled by slice */
     } finally {
       setSubmitting(false);
     }
@@ -78,7 +65,7 @@ export default function BudgetForm({ budget, categories, userId, month, existing
   };
 
   return (
-    <form className="budget-form" onSubmit={handleSubmit} noValidate>
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
       <Select
         id="budget-category"
         label="Expense Category"
@@ -93,14 +80,14 @@ export default function BudgetForm({ budget, categories, userId, month, existing
 
       <Input
         id="budget-amount"
-        label="Monthly Limit (EGP)"
+        label="Monthly Limit"
         type="number"
         value={form.amount}
         onChange={handleChange('amount')}
         placeholder="e.g., 500"
         error={errors.amount}
         required
-        icon="🎯"
+        icon={<i className="fa-solid fa-bullseye" />}
         min="1"
       />
 
@@ -112,15 +99,15 @@ export default function BudgetForm({ budget, categories, userId, month, existing
         onChange={handleChange('month')}
         error={errors.month}
         required
-        icon="📅"
+        icon={<i className="fa-solid fa-calendar" />}
         disabled={isEdit}
       />
 
-      <div className="budget-form__actions">
-        <Button type="button" variant="secondary" onClick={onClose}>
+      <div className="flex gap-3 pt-1">
+        <Button type="button" variant="secondary" onClick={onClose} fullWidth>
           Cancel
         </Button>
-        <Button type="submit" variant="primary" disabled={submitting}>
+        <Button type="submit" variant="primary" disabled={submitting} fullWidth>
           {submitting ? 'Saving...' : isEdit ? 'Update Limit' : 'Set Budget'}
         </Button>
       </div>

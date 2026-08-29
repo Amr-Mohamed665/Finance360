@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTransactions, deleteTransaction } from '../store/slices/transactionsSlice';
 import { fetchCategories } from '../store/slices/categoriesSlice';
@@ -11,7 +11,7 @@ import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import ErrorState from '../components/common/ErrorState';
 import EmptyState from '../components/common/EmptyState';
-import './TransactionsPage.css';
+import { useCallback } from 'react';
 
 export default function TransactionsPage() {
   const dispatch = useDispatch();
@@ -34,86 +34,47 @@ export default function TransactionsPage() {
 
   const filtered = useMemo(() => {
     let result = [...transactions];
-
-    /* Search */
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter((t) => {
         const cat = categories.find((c) => c.id === t.categoryId);
-        return (
-          t.description.toLowerCase().includes(q) ||
-          (cat && cat.name.toLowerCase().includes(q))
-        );
+        return t.description.toLowerCase().includes(q) || (cat && cat.name.toLowerCase().includes(q));
       });
     }
-
-    /* Filter by type */
-    if (filters.type) {
-      result = result.filter((t) => t.type === filters.type);
-    }
-
-    /* Filter by category */
-    if (filters.categoryId) {
-      result = result.filter((t) => t.categoryId === filters.categoryId);
-    }
-
-    /* Filter by month */
-    if (filters.month) {
-      result = result.filter((t) => t.date.startsWith(filters.month));
-    }
-
-    /* Sort */
+    if (filters.type)       result = result.filter((t) => t.type === filters.type);
+    if (filters.categoryId) result = result.filter((t) => t.categoryId === filters.categoryId);
+    if (filters.month)      result = result.filter((t) => t.date.startsWith(filters.month));
     result.sort((a, b) => {
-      let cmp = 0;
-      if (sort.field === 'date') {
-        cmp = new Date(a.date) - new Date(b.date);
-      } else if (sort.field === 'amount') {
-        cmp = a.amount - b.amount;
-      }
+      let cmp = sort.field === 'date' ? new Date(a.date) - new Date(b.date) : a.amount - b.amount;
       return sort.dir === 'desc' ? -cmp : cmp;
     });
-
     return result;
   }, [transactions, search, filters, sort, categories]);
 
-  const handleEdit = useCallback((tx) => {
-    setEditingTx(tx);
-    setModalOpen(true);
-  }, []);
-
-  const handleDelete = useCallback(
-    (id) => {
-      if (window.confirm('Are you sure you want to delete this transaction?')) {
-        dispatch(deleteTransaction(id));
-      }
-    },
-    [dispatch]
-  );
-
-  const handleCloseModal = useCallback(() => {
-    setModalOpen(false);
-    setEditingTx(null);
-  }, []);
+  const handleEdit        = useCallback((tx) => { setEditingTx(tx); setModalOpen(true); }, []);
+  const handleDelete      = useCallback((id) => { if (window.confirm('Delete this transaction?')) dispatch(deleteTransaction(id)); }, [dispatch]);
+  const handleCloseModal  = useCallback(() => { setModalOpen(false); setEditingTx(null); }, []);
 
   if (loading) return <Loading message="Loading transactions..." />;
-  if (error) return <ErrorState message={error} onRetry={() => dispatch(fetchTransactions(user.id))} />;
+  if (error)   return <ErrorState message={error} onRetry={() => dispatch(fetchTransactions(user.id))} />;
 
   return (
-    <div className="transactions-page">
-      <div className="transactions-page__header">
+    <div className="flex flex-col gap-6 animate-fade-in">
+      <div className="page-header">
         <div>
-          <h1 className="transactions-page__title">Transactions</h1>
-          <p className="transactions-page__subtitle">
-            Manage your income and expenses
-          </p>
+          <h1 className="page-title">Transactions</h1>
+          <p className="page-subtitle">Manage your income and expenses</p>
         </div>
         <Button variant="primary" onClick={() => setModalOpen(true)}>
-          + Add Transaction
+          <i className="fa-solid fa-plus" /> Add Transaction
         </Button>
       </div>
 
-      <div className="transactions-page__toolbar">
-        <TransactionSearch value={search} onChange={setSearch} />
+      {/* Toolbar */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex-1">
+          <TransactionSearch value={search} onChange={setSearch} />
+        </div>
         <TransactionFilters
           filters={filters}
           onFilterChange={setFilters}
@@ -126,7 +87,7 @@ export default function TransactionsPage() {
 
       {filtered.length === 0 ? (
         <EmptyState
-          icon={<i className="fa-solid fa-money-bill-transfer text-success"></i>}
+          icon={<i className="fa-solid fa-money-bill-transfer text-income text-2xl" />}
           title="No transactions found"
           message={
             transactions.length === 0
@@ -145,17 +106,8 @@ export default function TransactionsPage() {
         />
       )}
 
-      <Modal
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        title={editingTx ? 'Edit Transaction' : 'Add Transaction'}
-      >
-        <TransactionForm
-          transaction={editingTx}
-          categories={categories}
-          userId={user?.id}
-          onClose={handleCloseModal}
-        />
+      <Modal isOpen={modalOpen} onClose={handleCloseModal} title={editingTx ? 'Edit Transaction' : 'Add Transaction'}>
+        <TransactionForm transaction={editingTx} categories={categories} userId={user?.id} onClose={handleCloseModal} />
       </Modal>
     </div>
   );

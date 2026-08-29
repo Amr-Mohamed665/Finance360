@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import Card from '../common/Card';
 import { filterByMonth, calcTotal, getPreviousMonth, calcPercentage } from '../../utils/helpers';
-import './SpendingInsights.css';
 
 export default function SpendingInsights({ transactions, categories, budgets, savingsGoals, currentMonth }) {
   const insights = useMemo(() => {
@@ -42,56 +41,70 @@ export default function SpendingInsights({ transactions, categories, budgets, sa
     const totalSavingsCurrent = savingsGoals.reduce((s, g) => s + g.currentAmount, 0);
     const savingsPct = totalSavingsTarget > 0 ? calcPercentage(totalSavingsCurrent, totalSavingsTarget) : null;
 
-    return { highestCat, highestAmt, spendingChange, budgetPct, savingsPct, prevMonth };
+    return { highestCat, highestAmt, spendingChange, budgetPct, savingsPct };
   }, [transactions, categories, budgets, savingsGoals, currentMonth]);
+
+  const insightRows = [
+    insights.highestCat && {
+      icon: 'fa-solid fa-fire',
+      iconColor: 'text-expense',
+      text: (
+        <>
+          <strong className="text-text-primary">
+            <i className={insights.highestCat.icon} /> {insights.highestCat.name}
+          </strong>{' '}
+          is your top spending category (${insights.highestAmt.toLocaleString()}).
+        </>
+      ),
+    },
+    insights.spendingChange !== null && {
+      icon: insights.spendingChange >= 0 ? 'fa-solid fa-chart-line' : 'fa-solid fa-chart-line-down',
+      iconColor: insights.spendingChange >= 0 ? 'text-expense' : 'text-income',
+      text: (
+        <>
+          Spending {insights.spendingChange >= 0 ? 'increased' : 'decreased'} by{' '}
+          <strong className="text-text-primary">{Math.abs(insights.spendingChange)}%</strong> vs last month.
+        </>
+      ),
+    },
+    insights.budgetPct !== null && {
+      icon: 'fa-solid fa-bullseye',
+      iconColor: 'text-accent-primary',
+      text: (
+        <>
+          <strong className="text-text-primary">{insights.budgetPct}%</strong> of your monthly budget used.
+        </>
+      ),
+    },
+    insights.savingsPct !== null && {
+      icon: 'fa-solid fa-piggy-bank',
+      iconColor: 'text-accent-secondary',
+      text: (
+        <>
+          <strong className="text-text-primary">{insights.savingsPct}%</strong> toward your savings goals.
+        </>
+      ),
+    },
+  ].filter(Boolean);
 
   return (
     <Card title="Spending Insights">
-      <div className="insights__list">
-        {insights.highestCat && (
-          <div className="insight-item">
-            <span className="insight-item__icon"><i className="fa-solid fa-fire text-danger"></i></span>
-            <div className="insight-item__text">
-              <strong><i className={insights.highestCat.icon}></i> {insights.highestCat.name}</strong> is your highest spending
-              category this month (${insights.highestAmt.toLocaleString()}).
+      {insightRows.length === 0 ? (
+        <p className="text-sm text-text-muted text-center py-4">
+          Add transactions to see your spending insights.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {insightRows.map((row, i) => (
+            <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-bg-hover border border-border">
+              <span className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-md bg-bg-tertiary text-sm ${row.iconColor}`}>
+                <i className={row.icon} />
+              </span>
+              <p className="text-sm text-text-secondary leading-relaxed">{row.text}</p>
             </div>
-          </div>
-        )}
-
-        {insights.spendingChange !== null && (
-          <div className="insight-item">
-            <span className="insight-item__icon">
-              <i className={`fa-solid ${insights.spendingChange >= 0 ? 'fa-chart-line text-danger' : 'fa-chart-line-down text-success'}`}></i>
-            </span>
-            <div className="insight-item__text">
-              Your spending {insights.spendingChange >= 0 ? 'increased' : 'decreased'} by{' '}
-              <strong>{Math.abs(insights.spendingChange)}%</strong> compared with last month.
-            </div>
-          </div>
-        )}
-
-        {insights.budgetPct !== null && (
-          <div className="insight-item">
-            <span className="insight-item__icon"><i className="fa-solid fa-bullseye text-primary"></i></span>
-            <div className="insight-item__text">
-              You have used <strong>{insights.budgetPct}%</strong> of your monthly budget.
-            </div>
-          </div>
-        )}
-
-        {insights.savingsPct !== null && (
-          <div className="insight-item">
-            <span className="insight-item__icon"><i className="fa-solid fa-piggy-bank text-secondary"></i></span>
-            <div className="insight-item__text">
-              You are <strong>{insights.savingsPct}%</strong> toward your savings goals.
-            </div>
-          </div>
-        )}
-
-        {insights.highestCat === null && insights.spendingChange === null && (
-          <p className="insights__empty">Add transactions to see your spending insights.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </Card>
   );
 }

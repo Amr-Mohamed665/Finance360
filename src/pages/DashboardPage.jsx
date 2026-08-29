@@ -13,7 +13,6 @@ import SpendingInsights from '../components/dashboard/SpendingInsights';
 import DashboardChart from '../components/dashboard/DashboardChart';
 import Loading from '../components/common/Loading';
 import ErrorState from '../components/common/ErrorState';
-import './DashboardPage.css';
 
 export default function DashboardPage() {
   const dispatch = useDispatch();
@@ -48,14 +47,16 @@ export default function DashboardPage() {
   if (tError) return <ErrorState message={tError} onRetry={() => dispatch(fetchTransactions(user.id))} />;
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__header">
+    <div className="flex flex-col gap-6 animate-fade-in">
+      {/* Page Header */}
+      <div className="page-header">
         <div>
-          <h1 className="dashboard__title">Dashboard</h1>
-          <p className="dashboard__subtitle">Welcome back, {user?.name}! Here&apos;s your financial overview.</p>
+          <h1 className="page-title">Dashboard</h1>
+          <p className="page-subtitle">Welcome back, {user?.name}! Here&apos;s your financial overview.</p>
         </div>
       </div>
 
+      {/* Summary Cards */}
       <SummaryCards
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
@@ -63,12 +64,16 @@ export default function DashboardPage() {
         totalSavings={totalSavings}
       />
 
-      <div className="dashboard__grid">
-        <div className="dashboard__grid-main">
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">
+        {/* Left column */}
+        <div className="flex flex-col gap-6">
           <DashboardChart transactions={transactions} />
           <RecentTransactions transactions={transactions} categories={categories} />
         </div>
-        <div className="dashboard__grid-side">
+
+        {/* Right column */}
+        <div className="flex flex-col gap-6">
           <SpendingInsights
             transactions={transactions}
             categories={categories}

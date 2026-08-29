@@ -4,7 +4,6 @@ import { addTransaction, updateTransaction } from '../../store/slices/transactio
 import Input from '../common/Input';
 import Select from '../common/Select';
 import Button from '../common/Button';
-import './TransactionForm.css';
 
 export default function TransactionForm({ transaction, categories, userId, onClose }) {
   const isEdit = !!transaction;
@@ -41,11 +40,7 @@ export default function TransactionForm({ transaction, categories, userId, onClo
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    const payload = {
-      ...form,
-      amount: Number(form.amount),
-      userId,
-    };
+    const payload = { ...form, amount: Number(form.amount), userId };
     try {
       if (isEdit) {
         await dispatch(updateTransaction({ id: transaction.id, data: payload })).unwrap();
@@ -64,7 +59,6 @@ export default function TransactionForm({ transaction, categories, userId, onClo
     const value = e.target.value;
     setForm((prev) => {
       const next = { ...prev, [field]: value };
-      /* Reset category when type changes */
       if (field === 'type') next.categoryId = '';
       return next;
     });
@@ -72,24 +66,26 @@ export default function TransactionForm({ transaction, categories, userId, onClo
   };
 
   return (
-    <form className="tx-form" onSubmit={handleSubmit} noValidate>
-      <div className="tx-form__row">
-        <div className="tx-form__type-toggle">
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
+      {/* Type toggle */}
+      <div className="flex rounded-lg overflow-hidden border border-border bg-bg-tertiary/40 p-1 gap-1">
+        {['expense', 'income'].map((type) => (
           <button
+            key={type}
             type="button"
-            className={`tx-form__type-btn ${form.type === 'expense' ? 'tx-form__type-btn--active-expense' : ''}`}
-            onClick={() => handleChange('type')({ target: { value: 'expense' } })}
+            onClick={() => handleChange('type')({ target: { value: type } })}
+            className={[
+              'flex-1 py-2 rounded-md text-sm font-semibold transition-all duration-150',
+              form.type === type
+                ? type === 'expense'
+                  ? 'bg-expense text-white shadow-glow-expense'
+                  : 'bg-income text-white shadow-glow-income'
+                : 'text-text-muted hover:text-text-secondary',
+            ].join(' ')}
           >
-            Expense
+            {type === 'expense' ? '↓ Expense' : '↑ Income'}
           </button>
-          <button
-            type="button"
-            className={`tx-form__type-btn ${form.type === 'income' ? 'tx-form__type-btn--active-income' : ''}`}
-            onClick={() => handleChange('type')({ target: { value: 'income' } })}
-          >
-            Income
-          </button>
-        </div>
+        ))}
       </div>
 
       <Input
@@ -101,7 +97,7 @@ export default function TransactionForm({ transaction, categories, userId, onClo
         placeholder="0.00"
         error={errors.amount}
         required
-        icon={<i className="fa-solid fa-money-bill-wave"></i>}
+        icon={<i className="fa-solid fa-dollar-sign" />}
         min="0"
         step="0.01"
       />
@@ -125,7 +121,7 @@ export default function TransactionForm({ transaction, categories, userId, onClo
         placeholder="What was this transaction for?"
         error={errors.description}
         required
-        icon={<i className="fa-solid fa-pen-to-square"></i>}
+        icon={<i className="fa-solid fa-pen-to-square" />}
       />
 
       <Input
@@ -136,14 +132,14 @@ export default function TransactionForm({ transaction, categories, userId, onClo
         onChange={handleChange('date')}
         error={errors.date}
         required
-        icon={<i className="fa-solid fa-calendar"></i>}
+        icon={<i className="fa-solid fa-calendar" />}
       />
 
-      <div className="tx-form__actions">
-        <Button type="button" variant="secondary" onClick={onClose}>
+      <div className="flex gap-3 pt-1">
+        <Button type="button" variant="secondary" onClick={onClose} fullWidth>
           Cancel
         </Button>
-        <Button type="submit" variant="primary" disabled={submitting}>
+        <Button type="submit" variant="primary" disabled={submitting} fullWidth>
           {submitting ? 'Saving...' : isEdit ? 'Update' : 'Add Transaction'}
         </Button>
       </div>

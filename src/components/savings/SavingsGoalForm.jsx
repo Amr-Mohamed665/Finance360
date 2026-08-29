@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { addSavingsGoal, updateSavingsGoal } from '../../store/slices/savingsGoalsSlice';
 import Input from '../common/Input';
 import Button from '../common/Button';
-import './SavingsGoalForm.css';
 
 export default function SavingsGoalForm({ goal, userId, onClose }) {
   const isEdit = !!goal;
@@ -21,22 +20,16 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
   const validate = () => {
     const errs = {};
     if (!form.name.trim()) errs.name = 'Goal name is required';
-    if (!form.targetAmount || isNaN(form.targetAmount) || Number(form.targetAmount) <= 0) {
+    if (!form.targetAmount || isNaN(form.targetAmount) || Number(form.targetAmount) <= 0)
       errs.targetAmount = 'Enter a valid target amount (greater than 0)';
-    }
-    if (form.currentAmount === '' || isNaN(form.currentAmount) || Number(form.currentAmount) < 0) {
+    if (form.currentAmount === '' || isNaN(form.currentAmount) || Number(form.currentAmount) < 0)
       errs.currentAmount = 'Enter a valid current amount (0 or greater)';
-    } else if (Number(form.currentAmount) > Number(form.targetAmount)) {
+    else if (Number(form.currentAmount) > Number(form.targetAmount))
       errs.currentAmount = 'Current savings cannot exceed the target amount';
-    }
-
     if (form.targetDate) {
       const today = new Date().toISOString().split('T')[0];
-      if (form.targetDate < today) {
-        errs.targetDate = 'Target date must be today or in the future';
-      }
+      if (form.targetDate < today) errs.targetDate = 'Target date must be today or in the future';
     }
-
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -51,7 +44,6 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
       currentAmount: Number(form.currentAmount),
       userId,
     };
-
     try {
       if (isEdit) {
         await dispatch(updateSavingsGoal({ id: goal.id, data: payload })).unwrap();
@@ -59,8 +51,8 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
         await dispatch(addSavingsGoal(payload)).unwrap();
       }
       onClose();
-    } catch (err) {
-      // slice catches
+    } catch {
+      /* slice catches */
     } finally {
       setSubmitting(false);
     }
@@ -72,7 +64,7 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
   };
 
   return (
-    <form className="savings-form" onSubmit={handleSubmit} noValidate>
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
       <Input
         id="savings-name"
         label="Goal Name"
@@ -81,52 +73,51 @@ export default function SavingsGoalForm({ goal, userId, onClose }) {
         placeholder="e.g., Summer Trip, New Laptop"
         error={errors.name}
         required
-        icon={<i className="fa-solid fa-bullseye"></i>}
+        icon={<i className="fa-solid fa-bullseye" />}
       />
 
-      <div className="savings-form__row">
+      <div className="grid grid-cols-2 gap-4">
         <Input
           id="savings-target"
-          label="Target Amount (EGP)"
+          label="Target Amount"
           type="number"
           value={form.targetAmount}
           onChange={handleChange('targetAmount')}
           placeholder="e.g., 2000"
           error={errors.targetAmount}
           required
-          icon={<i className="fa-solid fa-money-bill-wave"></i>}
+          icon={<i className="fa-solid fa-dollar-sign" />}
           min="1"
         />
-
         <Input
           id="savings-current"
-          label="Current Savings (EGP)"
+          label="Current Savings"
           type="number"
           value={form.currentAmount}
           onChange={handleChange('currentAmount')}
           placeholder="0"
           error={errors.currentAmount}
           required
-          icon={<i className="fa-solid fa-piggy-bank"></i>}
+          icon={<i className="fa-solid fa-piggy-bank" />}
           min="0"
         />
       </div>
 
       <Input
         id="savings-date"
-        label="Target Date"
+        label="Target Date (optional)"
         type="date"
         value={form.targetDate}
         onChange={handleChange('targetDate')}
         error={errors.targetDate}
-        icon={<i className="fa-solid fa-calendar"></i>}
+        icon={<i className="fa-solid fa-calendar" />}
       />
 
-      <div className="savings-form__actions">
-        <Button type="button" variant="secondary" onClick={onClose}>
+      <div className="flex gap-3 pt-1">
+        <Button type="button" variant="secondary" onClick={onClose} fullWidth>
           Cancel
         </Button>
-        <Button type="submit" variant="primary" disabled={submitting}>
+        <Button type="submit" variant="primary" disabled={submitting} fullWidth>
           {submitting ? 'Saving...' : isEdit ? 'Save Changes' : 'Create Goal'}
         </Button>
       </div>

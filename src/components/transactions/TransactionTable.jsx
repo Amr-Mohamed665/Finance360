@@ -1,81 +1,116 @@
 import { formatCurrency, formatDate } from '../../utils/helpers';
-import './TransactionTable.css';
+
+const actionBtn = 'w-8 h-8 flex items-center justify-center rounded-md text-xs transition-all duration-150';
 
 export default function TransactionTable({ transactions, categories, onEdit, onDelete }) {
   const getCat = (id) => categories.find((c) => c.id === id);
 
+  const Badge = ({ type }) => (
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+        type === 'income'
+          ? 'bg-income/15 text-income border border-income/20'
+          : 'bg-expense/15 text-expense border border-expense/20'
+      }`}
+    >
+      {type === 'income' ? 'Income' : 'Expense'}
+    </span>
+  );
+
   return (
-    <div className="tx-table-wrapper">
+    <div>
       {/* Desktop table */}
-      <table className="tx-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th className="tx-table__right">Amount</th>
-            <th className="tx-table__right">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((tx) => {
-            const cat = getCat(tx.categoryId);
-            return (
-              <tr key={tx.id}>
-                <td>{formatDate(tx.date)}</td>
-                <td>
-                  <span className={`tx-badge tx-badge--${tx.type}`}>
-                    {tx.type === 'income' ? 'Income' : 'Expense'}
-                  </span>
-                </td>
-                <td>{cat ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><i className={cat.icon} style={{ color: cat.color }}></i> {cat.name}</span> : 'Unknown'}</td>
-                <td>{tx.description}</td>
-                <td className={`tx-table__right tx-amount--${tx.type}`}>
-                  {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
-                </td>
-                <td className="tx-table__right">
-                  <div className="tx-table__actions">
-                    <button className="tx-table__btn tx-table__btn--edit" onClick={() => onEdit(tx)} title="Edit transaction"><i className="fa-solid fa-pen"></i></button>
-                    <button className="tx-table__btn tx-table__btn--delete" onClick={() => onDelete(tx.id)} title="Delete transaction"><i className="fa-solid fa-trash"></i></button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="hidden md:block glass-panel rounded-xl overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border bg-bg-tertiary/50">
+              {['Date', 'Type', 'Category', 'Description', 'Amount', 'Actions'].map((h, i) => (
+                <th
+                  key={h}
+                  className={`px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider ${i >= 4 ? 'text-right' : 'text-left'}`}
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {transactions.map((tx) => {
+              const cat = getCat(tx.categoryId);
+              return (
+                <tr key={tx.id} className="hover:bg-bg-hover transition-colors duration-100">
+                  <td className="px-4 py-3 text-text-secondary whitespace-nowrap">{formatDate(tx.date)}</td>
+                  <td className="px-4 py-3"><Badge type={tx.type} /></td>
+                  <td className="px-4 py-3">
+                    {cat ? (
+                      <span className="flex items-center gap-2">
+                        <i className={cat.icon} style={{ color: cat.color }} />
+                        <span className="text-text-secondary">{cat.name}</span>
+                      </span>
+                    ) : (
+                      <span className="text-text-muted">Unknown</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-text-primary max-w-[180px] truncate">{tx.description}</td>
+                  <td className={`px-4 py-3 text-right font-semibold ${tx.type === 'income' ? 'text-income' : 'text-expense'}`}>
+                    {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        className={`${actionBtn} text-text-muted hover:text-accent-primary hover:bg-accent-primary/10`}
+                        onClick={() => onEdit(tx)} title="Edit"
+                      >
+                        <i className="fa-solid fa-pen" />
+                      </button>
+                      <button
+                        className={`${actionBtn} text-text-muted hover:text-expense hover:bg-expense/10`}
+                        onClick={() => onDelete(tx.id)} title="Delete"
+                      >
+                        <i className="fa-solid fa-trash" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {/* Mobile cards */}
-      <div className="tx-cards">
+      <div className="md:hidden flex flex-col gap-3">
         {transactions.map((tx) => {
           const cat = getCat(tx.categoryId);
+          const color = cat?.color ?? '#64748b';
           return (
-            <div key={tx.id} className="tx-card-item">
-              <div className="tx-card-item__top">
-                <div className="tx-card-item__icon" style={{
-                  color: cat?.color || 'var(--text-muted)',
-                  background: `color-mix(in srgb, ${cat?.color || 'var(--text-muted)'} 10%, transparent)`
-                }}>
-                  <i className={cat?.icon || 'fa-solid fa-box-open'}></i>
+            <div key={tx.id} className="glass-panel rounded-xl p-4 flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
+                  style={{ color, background: `${color}18` }}
+                >
+                  <i className={cat?.icon ?? 'fa-solid fa-box-open'} />
                 </div>
-                <div className="tx-card-item__info">
-                  <span className="tx-card-item__desc">{tx.description}</span>
-                  <span className="tx-card-item__meta">
-                    {cat?.name || 'Unknown'} · {formatDate(tx.date)}
-                  </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-text-primary truncate">{tx.description}</p>
+                  <p className="text-xs text-text-muted">{cat?.name ?? 'Unknown'} · {formatDate(tx.date)}</p>
                 </div>
-                <span className={`tx-card-item__amount tx-amount--${tx.type}`}>
+                <span className={`text-sm font-bold flex-shrink-0 ${tx.type === 'income' ? 'text-income' : 'text-expense'}`}>
                   {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
                 </span>
               </div>
-              <div className="tx-card-item__bottom">
-                <span className={`tx-badge tx-badge--${tx.type}`}>
-                  {tx.type === 'income' ? 'Income' : 'Expense'}
-                </span>
-                <div className="tx-table__actions">
-                  <button className="tx-table__btn tx-table__btn--edit" onClick={() => onEdit(tx)} title="Edit transaction"><i className="fa-solid fa-pen"></i></button>
-                  <button className="tx-table__btn tx-table__btn--delete" onClick={() => onDelete(tx.id)} title="Delete transaction"><i className="fa-solid fa-trash"></i></button>
+              <div className="flex items-center justify-between">
+                <Badge type={tx.type} />
+                <div className="flex gap-1">
+                  <button
+                    className={`${actionBtn} text-text-muted hover:text-accent-primary hover:bg-accent-primary/10`}
+                    onClick={() => onEdit(tx)}
+                  ><i className="fa-solid fa-pen" /></button>
+                  <button
+                    className={`${actionBtn} text-text-muted hover:text-expense hover:bg-expense/10`}
+                    onClick={() => onDelete(tx.id)}
+                  ><i className="fa-solid fa-trash" /></button>
                 </div>
               </div>
             </div>

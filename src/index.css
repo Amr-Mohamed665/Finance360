@@ -1,121 +1,70 @@
-/* ─── Global Design Tokens ─── */
-:root {
-  /* Color Palette (Premium Dark Cyberpunk/Finance Theme) */
-  --bg-primary: #080b11;
-  --bg-secondary: #0f131a;
-  --bg-tertiary: #171d26;
-  --bg-card: rgba(15, 19, 26, 0.75);
-  --bg-sidebar: #0a0d14;
-  --bg-hover: rgba(255, 255, 255, 0.04);
-  
-  --border-color: rgba(255, 255, 255, 0.06);
-  --border-glow: rgba(99, 102, 241, 0.15);
-  
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
-  
-  --accent-primary: #6366f1; /* Neon Indigo */
-  --accent-secondary: #06b6d4; /* Neon Cyan */
-  
-  --income-color: #10b981; /* Emerald Green */
-  --expense-color: #f43f5e; /* Rose Red */
-  --danger: #f43f5e;
-  
-  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --gradient-dark: linear-gradient(180deg, #0f131a 0%, #080b11 100%);
-  --gradient-card: linear-gradient(145deg, rgba(15, 19, 26, 0.9) 0%, rgba(10, 13, 20, 0.9) 100%);
-  
-  /* Sizing and Shape */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  
-  /* Transitions */
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Shadows & Glows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
-  --glow-primary: 0 0 20px rgba(99, 102, 241, 0.2);
-  --glow-accent: 0 0 20px rgba(6, 166, 212, 0.2);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ─── Base Resets ─── */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    background-image: linear-gradient(180deg, #0f131a 0%, #080b11 100%);
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-primary font-bold tracking-tight;
+  }
+
+  a {
+    @apply text-accent-primary no-underline transition-colors duration-150;
+  }
+  a:hover {
+    @apply text-accent-primary-hover;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { @apply bg-bg-primary; }
+  ::-webkit-scrollbar-thumb  { @apply bg-bg-tertiary rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-text-muted; }
 }
 
-/* ─── Resets & Base Styles ─── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ─── Reusable Component Classes ─── */
+@layer components {
+  /* Glassmorphism card panel */
+  .glass-panel {
+    background: linear-gradient(145deg, rgba(15,19,26,0.9) 0%, rgba(10,13,20,0.9) 100%);
+    @apply backdrop-blur-card border border-border rounded-lg shadow-md transition-all duration-200;
+  }
+  .glass-panel:hover {
+    @apply border-border-glow shadow-card-hover;
+  }
+
+  /* Page section header */
+  .page-header {
+    @apply flex items-center justify-between flex-wrap gap-4 mb-6;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-text-primary tracking-tight;
+  }
+
+  .page-subtitle {
+    @apply text-sm text-text-muted mt-1;
+  }
 }
 
-body {
-  background-color: var(--bg-primary);
-  background-image: var(--gradient-dark);
-  color: var(--text-primary);
-  font-family: var(--font-family);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
-  overflow-x: hidden;
+/* ─── Float animation for auth shapes (needs arbitrary values) ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-20px) scale(1.05); }
 }
-
-/* Customized Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-a {
-  color: var(--accent-primary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-a:hover {
-  color: #818cf8;
-}
-
-/* Custom Translucent Glassmorphism Card Style */
-.glass-panel {
-  background: var(--gradient-card);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-normal);
-}
-.glass-panel:hover {
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-lg), var(--glow-primary);
-}
-
-/* Global Helper Text Classes */
-.text-success { color: var(--income-color) !important; }
-.text-danger { color: var(--expense-color) !important; }
-.text-primary { color: var(--accent-primary) !important; }
-.text-secondary { color: var(--accent-secondary) !important; }
-.text-muted { color: var(--text-muted) !important; }
-
-/* Grid systems spacing */
-.grid-gap-md { gap: 1rem; }
-.grid-gap-lg { gap: 1.5rem; }
