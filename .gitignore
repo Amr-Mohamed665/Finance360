@@ -1,0 +1,41 @@
+# =========================
+# General & Root
+# =========================
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+# =========================
+# Frontend - React / Vite
+# =========================
+Finance360/node_modules/
+Finance360/dist/
+Finance360/.env
+Finance360/.env.*
+!Finance360/.env.example
+
+# =========================
+# Backend - Express / Prisma
+# =========================
+finance-360-backend-express/node_modules/
+finance-360-backend-express/dist/
+finance-360-backend-express/build/
+finance-360-backend-express/.env
+finance-360-backend-express/.env.*
+!finance-360-backend-express/.env.example
+
+# Legacy Backend - Strapi
+finance-360-backend/node_modules/
+finance-360-backend/.tmp/
+finance-360-backend/.cache/
+finance-360-backend/dist/
+finance-360-backend/build/
+finance-360-backend/.strapi/
+finance-360-backend/.env
+finance-360-backend/.env.*
+!finance-360-backend/.env.example
+[]
