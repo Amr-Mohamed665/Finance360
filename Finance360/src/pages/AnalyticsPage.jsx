@@ -22,65 +22,6 @@ import Loading from "../components/common/Loading";
 import ErrorState from "../components/common/ErrorState";
 import EmptyState from "../components/common/EmptyState";
 
-const TIMEFRAME_OPTIONS = [
-  { value: "today", label: "Today" },
-  { value: "this_week", label: "This Week" },
-  { value: "this_month", label: "This Month" },
-  { value: "3_months", label: "3 Months" },
-  { value: "6_months", label: "6 Months" },
-  { value: "9_months", label: "9 Months" },
-  { value: "this_year", label: "This Year" },
-  { value: "all_time", label: "All Time" },
-];
-
-const isDateInTimeframe = (dateStr, timeframe) => {
-  if (!dateStr || timeframe === 'all_time') return true;
-  
-  const cleanDateStr = String(dateStr).split('T')[0];
-  const [y, m, d] = cleanDateStr.split('-').map(Number);
-  if (!y || !m || !d) return true;
-  
-  const txDate = new Date(y, m - 1, d);
-  const now = new Date();
-  const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
-  if (timeframe === 'today') {
-    return txDate.getTime() === todayDate.getTime();
-  }
-  
-  if (timeframe === 'this_week') {
-    const day = now.getDay();
-    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-    const startOfWeek = new Date(now.getFullYear(), now.getMonth(), diff);
-    return txDate >= startOfWeek && txDate <= now;
-  }
-  
-  if (timeframe === 'this_month') {
-    return txDate.getFullYear() === now.getFullYear() && txDate.getMonth() === now.getMonth();
-  }
-  
-  if (timeframe === '3_months') {
-    const past = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
-    return txDate >= past && txDate <= now;
-  }
-  
-  if (timeframe === '6_months') {
-    const past = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
-    return txDate >= past && txDate <= now;
-  }
-  
-  if (timeframe === '9_months') {
-    const past = new Date(now.getFullYear(), now.getMonth() - 9, now.getDate());
-    return txDate >= past && txDate <= now;
-  }
-  
-  if (timeframe === 'this_year') {
-    return txDate.getFullYear() === now.getFullYear();
-  }
-  
-  return true;
-};
-
 const selectCls =
   "appearance-none bg-bg-tertiary/60 border border-border rounded-lg pl-3 pr-8 py-2 text-sm text-text-primary outline-none focus:border-accent-primary/50 transition-all cursor-pointer";
 
@@ -99,13 +40,6 @@ export default function AnalyticsPage() {
   const { items: savingsGoals, loading: sLoading } = useSelector(
     (s) => s.savingsGoals,
   );
-
-  const [timeframe, setTimeframe] = useState("all_time");
-
-  const filteredTransactions = useMemo(() => {
-    if (!Array.isArray(transactions)) return [];
-    return transactions.filter((t) => isDateInTimeframe(t?.date, timeframe));
-  }, [transactions, timeframe]);
 
   const months = useMemo(
     () => getAvailableMonths(transactions),
@@ -246,56 +180,27 @@ export default function AnalyticsPage() {
 
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
-      {/* Top Header & Timeframe Dropdown */}
-      <div className="glass-panel rounded-2xl p-5 border border-border/70 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-30">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-income mb-1">
-            <i className="fa-solid fa-chart-pie" />
-            <span>Analytics Dashboard</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-text-primary">
-            Financial Analytics & Insights
-          </h1>
-          <p className="text-xs sm:text-sm text-text-muted mt-0.5">
-            Filter all charts and analytics metrics by date range
-          </p>
-        </div>
-
-        {/* Timeframe Dropdown on Top Right */}
-        <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
-          <label className="text-xs font-semibold uppercase tracking-wider text-text-muted hidden sm:inline-block">
-            Timeframe:
-          </label>
-          <div className="relative">
-            <select
-              value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value)}
-              className="w-full sm:w-auto min-w-[170px] h-10 px-3.5 pr-9 rounded-xl border border-border bg-bg-tertiary/80 text-sm font-medium text-text-primary outline-none backdrop-blur-sm transition-all hover:border-income/40 focus:border-income/60 focus:ring-2 focus:ring-income/10 cursor-pointer appearance-none"
-            >
-              {TIMEFRAME_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value} className="bg-bg-secondary text-text-primary">
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-income text-xs">
-              <i className="fa-solid fa-chevron-down" />
-            </span>
-          </div>
-        </div>
+      {/* Top Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-text-primary">
+          Analytics & Insights
+        </h1>
+        <p className="text-sm text-text-muted mt-1">
+          Visualise your spending habits and financial trend over time
+        </p>
       </div>
 
       {/* Main Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <IncomeExpenseChart transactions={filteredTransactions} />
+        <IncomeExpenseChart transactions={transactions} />
         <SpendingCategoryChart
-          transactions={filteredTransactions}
+          transactions={transactions}
           categories={categories}
         />
       </div>
 
       <div>
-        <MonthlySpendingChart transactions={filteredTransactions} />
+        <MonthlySpendingChart transactions={transactions} />
       </div>
 
       {/* Monthly Details */}
