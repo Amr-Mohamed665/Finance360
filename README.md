@@ -1,163 +1,599 @@
 # Personal Finance 360
 
-Personal Finance 360 is a comprehensive wealth management and tracking React web application. It enables users to monitor their income, categorize expenses, plan monthly budgets, set milestones for savings goals, and visualizes financial data through interactive analytics and automated spending insights.
+This is a modern, responsive personal finance management web application built with React. Personal Finance 360 helps users track income and expenses, manage monthly budgets, set savings goals, and understand their spending through interactive analytics and financial insights.
+
+This project was developed as a graduation project for a **React Front-End Development Training Program**.
+
+---
+
+## Project Overview
+
+Personal Finance 360 provides users with a centralized dashboard for managing their personal finances.
+
+The application allows users to:
+
+* Track income and expenses
+* Manage financial transactions
+* Create and manage expense categories
+* Set monthly budgets
+* Track savings goals
+* Search, filter, and sort transactions
+* Analyze financial activity using interactive charts
+* Compare financial performance between different months
+* Receive automated spending insights
+* Manage their finances through a responsive desktop, tablet, and mobile interface
+
+The project focuses on demonstrating practical React front-end development skills through a complete, data-driven web application.
 
 ---
 
 ## Features
 
-1. **User Authentication**: Simple login and registration with input validator rules, keeping data isolated between different accounts.
-2. **Financial Overview Dashboard**: Summary cards for net balance, total income, total expenses, recent transactions, monthly budgets progress, savings goals trackers, and a micro charts visualizer.
-3. **Transactions Management**: Full CRUD operations for income and expenses. Search transactions by description or category, filter by month/category/type, and sort dynamically by amount or date.
-4. **Expense Categories**: Standardized categories mapped to custom icons and colors for styling dashboards.
-5. **Budgets Tracking**: Monthly limit constraints mapped per expense category, showing visual progression indicators that alert users when limits are near or exceeded.
-6. **Savings Goals**: Milestone tracking with target dates, visual completion percentage bars, and increment progress updates.
-7. **Interactive Analytics Pages**: Real-time charts showing financial trends:
-   - **Income vs Expenses** (Bar Chart)
-   - **Spending by Category** (Pie/Donut Chart)
-   - **Monthly Spending Trend** (Area Chart)
-8. **Period Comparison**: Side-by-side comparative table analyzing income, expenses, and savings metrics between two selected months.
-9. **Derived Spending Insights**:
-   - Automated highest spending category indicator.
-   - Month-over-month expenses variation percentage tracker.
-   - Overall budget allocation limit warnings.
-   - Total savings objectives milestone percentage.
+### Authentication
+
+* User registration
+* User login
+* Logout
+* Authentication state management
+* Protected routes
+* User-specific financial data
+
+### Financial Dashboard
+
+The dashboard provides an overview of the user's financial activity, including:
+
+* Total balance
+* Monthly income
+* Monthly expenses
+* Savings information
+* Recent transactions
+* Budget overview
+* Savings goal progress
+* Financial charts
+* Spending insights
+
+### Transaction Management
+
+Users can manage both income and expense transactions.
+
+Features include:
+
+* Add transactions
+* Edit transactions
+* Delete transactions
+* View transaction history
+* Search transactions
+* Filter transactions
+* Sort transactions
+* Filter by transaction type
+* Filter by category
+* Filter by month
+* Sort by amount
+* Sort by date
+
+### Expense Categories
+
+Users can organize expenses using categories such as:
+
+* Food
+* Housing
+* Transportation
+* Bills
+* Shopping
+* Education
+* Entertainment
+* Health & Fitness
+
+Category management includes:
+
+* Create category
+* View categories
+* Edit category
+* Delete category
+
+### Monthly Budgets
+
+Users can create budgets for individual expense categories.
+
+Features include:
+
+* Select expense category
+* Set monthly spending limit
+* Select budget month
+* View budget progress
+* Track amount spent
+* Track remaining budget
+* Calculate budget usage percentage
+* Edit budgets
+* Delete budgets
+
+### Savings Goals
+
+Users can create and manage savings goals.
+
+Features include:
+
+* Create savings goal
+* Set target amount
+* Track current savings
+* Set target date
+* Update savings progress
+* View completion percentage
+* Edit savings goals
+* Delete savings goals
+
+### Analytics
+
+The Analytics section provides visual representations of financial data.
+
+Charts include:
+
+* Income vs. Expenses
+* Spending by Category
+* Monthly Spending Trends
+* Savings analysis
+* Budget usage
+
+### Spending Insights
+
+The application generates useful insights from financial data, including:
+
+* Highest spending category
+* Month-over-month spending changes
+* Budget usage percentage
+* Savings progress
+* Comparison between financial periods
+
+These insights use derived financial data to transform transactions into meaningful information for the user.
 
 ---
 
-## Tech Stack
+## Frontend Technology Stack
 
-- **Frontend**: React (Vite, JavaScript/JSX)
-- **State Management**: Redux Toolkit
-- **Routing**: React Router (v6)
-- **HTTP client**: Axios
-- **Charts**: Recharts
-- **Simulated DB/API**: JSON Server
-- **Styling**: Pure CSS with Custom Design System Variables
+### Core Technologies
+
+* **React**
+* **JavaScript / JSX**
+* **Vite**
+
+### State Management
+
+* **Redux Toolkit**
+* **React Redux**
+
+Redux Toolkit is used to manage shared application state such as:
+
+* Authentication
+* Transactions
+* Categories
+* Budgets
+* Savings Goals
+
+### Routing
+
+* **React Router DOM**
+
+Used for:
+
+* Page navigation
+* Protected routes
+* Authentication-based routing
+
+### API Integration
+
+* **Axios**
+
+Axios is used to communicate with the application's REST API.
+
+### Forms & Validation
+
+* **Formik**
+* **Yup**
+
+Used for creating and validating forms throughout the application.
+
+### Data Visualization
+
+* **Recharts**
+
+Used to create interactive financial charts and visualizations.
+
+### Styling
+
+* **Tailwind CSS**
+* Responsive CSS utilities
+* Custom UI design system
 
 ---
 
-## Project Structure
+## Frontend Architecture
+
+The project follows a modular React component architecture.
 
 ```text
-finance-360/
-├── public/
-├── src/
-│   ├── app/
-│   ├── assets/
-│   ├── components/
-│   │   ├── common/         # Button, Card, EmptyState, Input, Select, Modal, etc.
-│   │   ├── layout/         # Sidebar, AppLayout
-│   │   ├── dashboard/      # BudgetOverview, RecentTransactions, SummaryCards, etc.
-│   │   ├── transactions/   # TransactionFilters, TransactionForm, TransactionTable, etc.
-│   │   ├── budgets/        # BudgetCard, BudgetForm
-│   │   ├── savings/        # SavingsGoalCard, SavingsGoalForm
-│   │   └── charts/         # IncomeExpenseChart, SpendingCategoryChart, MonthlySpendingChart
-│   ├── pages/              # AuthPages, DashboardPage, TransactionsPage, BudgetsPage, etc.
-│   ├── routes/             # ProtectedRoute wrapper
-│   ├── services/           # api.js Axios endpoints
-│   ├── store/              # store.js configuring Redux slices
-│   │   └── slices/         # authSlice, transactionsSlice, budgetsSlice, categoriesSlice, etc.
-│   ├── utils/              # helpers.js (date manipulation, currency converters)
-│   ├── App.jsx             # Main Router structure
-│   └── main.jsx            # React root mounting
-├── db.json                 # Mock DB (pre-seeded)
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
+src/
+├── components/
+│   ├── common/
+│   ├── layout/
+│   ├── dashboard/
+│   ├── transactions/
+│   ├── budgets/
+│   ├── savings/
+│   └── charts/
+│
+├── pages/
+│
+├── routes/
+│
+├── services/
+│
+├── store/
+│   └── slices/
+│
+├── utils/
+│
+├── App.jsx
+└── main.jsx
+```
+
+### Reusable Components
+
+The application uses reusable UI components to maintain consistency and reduce duplicated code.
+
+Examples include:
+
+* Buttons
+* Cards
+* Inputs
+* Select fields
+* Modals
+* Tables
+* Loading states
+* Error states
+* Empty states
+* Progress indicators
+
+Feature-specific components are also separated into dedicated folders for easier maintenance and scalability.
+
+---
+
+## Application Flow
+
+```text
+Registration / Login
+        ↓
+     Dashboard
+        ↓
+   Transactions
+        ↓
+      Budgets
+        ↓
+   Savings Goals
+        ↓
+     Analytics
+        ↓
+ Spending Insights
+```
+
+Users can navigate between protected sections of the application after authentication.
+
+---
+
+## State Management
+
+Redux Toolkit is used for centralized application state management.
+
+The application separates state into feature-based slices, including:
+
+```text
+authSlice
+transactionsSlice
+categoriesSlice
+budgetsSlice
+savingsGoalsSlice
+```
+
+This approach makes the application state easier to manage, maintain, and scale.
+
+---
+
+## CRUD Operations
+
+The application demonstrates complete CRUD workflows where applicable.
+
+### Transactions
+
+```text
+Create → Read → Update → Delete
+```
+
+### Categories
+
+```text
+Create → Read → Update → Delete
+```
+
+### Budgets
+
+```text
+Create → Read → Update → Delete
+```
+
+### Savings Goals
+
+```text
+Create → Read → Update → Delete
 ```
 
 ---
 
-## Installation & Setup
+## Search, Filtering & Sorting
+
+The transaction management interface provides multiple ways to work with financial data.
+
+### Search
+
+Users can search transactions using relevant transaction information.
+
+### Filtering
+
+Transactions can be filtered by:
+
+* Income / Expense
+* Category
+* Month
+
+### Sorting
+
+Transactions can be sorted by:
+
+* Date
+* Amount
+
+Sorting can be performed in:
+
+* Ascending order
+* Descending order
+
+---
+
+## Form Validation
+
+Forms throughout the application include validation to ensure that users provide valid information before submitting data.
+
+Validation is applied to features such as:
+
+* Login
+* Registration
+* Transactions
+* Categories
+* Budgets
+* Savings Goals
+
+The interface provides feedback when required fields are missing or invalid.
+
+---
+
+## Application States
+
+The frontend handles different application states to provide a better user experience.
+
+### Loading States
+
+Displayed while data is being retrieved or processed.
+
+### Error States
+
+Displayed when an operation fails and provide users with appropriate feedback and recovery options.
+
+### Empty States
+
+Displayed when there is no available data, with guidance for the next action.
+
+### Validation States
+
+Used to provide immediate feedback when users enter invalid form data.
+
+---
+
+## Responsive Design
+
+Personal Finance 360 is designed to work across:
+
+* Desktop
+* Tablet
+* Mobile
+
+The interface adapts its:
+
+* Navigation
+* Cards
+* Forms
+* Tables
+* Charts
+* Layouts
+* Controls
+
+to provide a consistent user experience across different screen sizes.
+
+---
+
+## API Integration
+
+The React frontend communicates with a REST API using Axios.
+
+The frontend is responsible for:
+
+* Sending API requests
+* Receiving financial data
+* Managing application state
+* Displaying API results
+* Handling loading and error states
+* Updating the interface after CRUD operations
+
+The backend/API serves as the data layer for the React application.
+
+---
+
+## Getting Started
 
 ### Prerequisites
-Make sure you have Node.js installed on your machine.
 
-1. Navigate to the project root directory:
-   ```bash
-   cd "Finance App"
-   ```
+Make sure you have the following installed:
 
-2. Install all dependencies:
-   ```bash
-   npm install
-   ```
+* Node.js
+* npm
 
----
+You can verify your installation with:
 
-## Running the Application
-
-This project runs both a Vite React development server and a JSON Server for API simulation.
-
-### Option A: Run concurrently (Recommended)
-This will launch both React and the backend database server with a single command:
 ```bash
-npm start
+node --version
+npm --version
 ```
 
-### Option B: Run in separate terminals
+---
 
-1. **Start the API Server**:
-   ```bash
-   npm run server
-   ```
-   *Runs on port 3001:* `http://localhost:3001`
+## Installation
 
-2. **Start the React Frontend**:
-   ```bash
-   npm run dev
-   ```
-   *Runs on port 5173:* `http://localhost:5173`
+Clone the repository and navigate to the frontend project:
+
+```bash
+git clone <YOUR-GITHUB-REPOSITORY-URL>
+cd Finance360
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
 
 ---
 
-## Simulated API Details
+## Environment Variables
 
-The frontend communicates with a simulated JSON Server database stored in `db.json`.
+Create a `.env` file in the frontend project if your API configuration requires environment variables.
 
-### Endpoints
+Example:
 
-| Method | Endpoint | Description |
-|---|---|---|
-| **POST** | `/users` | Registers a new account |
-| **GET** | `/users?email=val` | Resolves accounts for authentication verification |
-| **GET** | `/transactions?userId=val` | Fetches transactions for a specific user |
-| **POST** | `/transactions` | Creates a transaction |
-| **PATCH** | `/transactions/:id` | Modifies transaction |
-| **DELETE** | `/transactions/:id` | Deletes transaction |
-| **GET** | `/budgets?userId=val` | Fetches monthly category budgets |
-| **POST** | `/budgets` | Configures category budget limit |
-| **PATCH** | `/budgets/:id` | Updates budget limit amount |
-| **DELETE** | `/budgets/:id` | Deletes category budget limit |
-| **GET** | `/savingsGoals?userId=val` | Fetches savings goals |
-| **POST** | `/savingsGoals` | Creates savings goal target |
-| **PATCH** | `/savingsGoals/:id` | Modifies current/target savings |
-| **DELETE** | `/savingsGoals/:id` | Deletes savings goal |
-| **GET** | `/categories` | Fetches base system icons and colors metadata |
+```env
+VITE_API_URL=<YOUR_API_URL>
+```
 
-*All transaction, budget, and savings records include a `userId` field to isolate user data. Registered accounts will only be able to view and manage their own financial assets.*
+Do not commit private credentials, tokens, or secrets to GitHub.
 
 ---
 
-## Authentication Flow
+## Running the Development Server
 
-1. **Registration**: User fills Name, Email, Password. Form validates email syntax and matching passwords. Calls simulated API to check if the email already exists; if unique, writes a new user object.
-2. **Login**: Checks credentials against the simulated `/users` collection.
-3. **Session State**: On successful login, user payload is saved in Redux and persisted in `localStorage`.
-4. **Route Protection**: If the user is unauthenticated, they are redirected to `/login` if attempting to browse private dashboards. If authenticated, pages render via `AppLayout`.
+Start the React development server:
+
+```bash
+npm run dev
+```
+
+Vite will provide a local development URL, normally:
+
+```text
+http://localhost:5173
+```
 
 ---
 
-## Production Build & Deployment
+## Production Build
 
-To build a production compile of the React frontend, run:
+Create a production build with:
+
 ```bash
 npm run build
 ```
 
-### Deploying the App
-For real deployments (e.g. Vercel, Netlify):
-1. Deploy the compiled React build folder `dist/` to your frontend host.
-2. Since JSON Server runs locally, you can deploy the `db.json` database server to a free hosted REST mock service like **Render** or **JSONBin.io**, then update the `baseURL` inside `src/services/api.js` to point to the live server URL.
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+---
+
+## Project Requirements Demonstrated
+
+This project demonstrates the main requirements of the React Front-End Development Training Program:
+
+| Requirement            | Implementation                                   |
+| ---------------------- | ------------------------------------------------ |
+| React                  | React application using functional components    |
+| React Hooks            | Used throughout the application                  |
+| Component Architecture | Modular and reusable components                  |
+| React Router           | Application navigation and protected routes      |
+| State Management       | Redux Toolkit                                    |
+| API Integration        | Axios REST API integration                       |
+| Forms                  | Formik-based forms                               |
+| Validation             | Yup validation                                   |
+| CRUD                   | Transactions, Categories, Budgets, Savings Goals |
+| Search                 | Transaction search                               |
+| Filtering              | Transaction filters                              |
+| Sorting                | Date and amount sorting                          |
+| Data Visualization     | Recharts                                         |
+| Derived State          | Financial calculations and insights              |
+| Authentication         | Login, registration and protected routes         |
+| Responsive Design      | Desktop, tablet and mobile layouts               |
+| Loading States         | Loading feedback                                 |
+| Error States           | Error handling and recovery                      |
+| Empty States           | User guidance when no data exists                |
+| Professional UI/UX     | Consistent responsive interface                  |
+
+---
+
+## Key Learning Outcomes
+
+Through this project, the following front-end development skills were demonstrated:
+
+* Building a complete React application
+* Creating reusable React components
+* Managing global state with Redux Toolkit
+* Implementing client-side routing
+* Creating protected routes
+* Integrating REST APIs
+* Building and validating forms
+* Implementing CRUD operations
+* Managing complex financial data
+* Implementing search, filtering, and sorting
+* Creating interactive charts
+* Calculating derived financial information
+* Designing responsive interfaces
+* Handling loading, error, and empty states
+* Structuring a maintainable frontend project
+
+---
+
+## Future Improvements
+
+Possible future enhancements include:
+
+* Financial data export
+* More advanced financial reports
+* Notifications and reminders
+* Additional analytics
+* More detailed spending predictions
+* Multi-currency support
+* Enhanced accessibility
+* Personalized financial recommendations
+
+---
+
+## Graduation Project
+
+**Project:** Personal Finance 360
+**Program:** React Front-End Development Training Program
+**Project Type:** Graduation Project
+
+### Main Focus
+
+The primary focus of this project is demonstrating practical **React front-end development**, including component architecture, state management, routing, API integration, forms, CRUD operations, responsive design, data visualization, and user experience.
+
+---
+
+## License
+
+This project was developed for educational and training purposes as part of the React Front-End Development Training Program.
