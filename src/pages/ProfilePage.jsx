@@ -143,36 +143,36 @@ export default function ProfilePage() {
       {/* Details Card */}
       <Card title="Account Details">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex items-center justify-between">
-            <span className="text-text-muted flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+            <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
               <i className="fa-solid fa-user text-xs w-4 text-accent-primary" />{" "}
               Username
             </span>
-            <span className="font-semibold text-text-primary">
+            <span className="font-semibold text-text-primary truncate min-w-0">
               {displayName}
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex items-center justify-between">
-            <span className="text-text-muted flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+            <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
               <i className="fa-solid fa-envelope text-xs w-4 text-accent-primary" />{" "}
               Email
             </span>
-            <span className="font-semibold text-text-primary">{email}</span>
+            <span className="font-semibold text-text-primary truncate min-w-0 break-all sm:break-normal">{email}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex items-center justify-between">
-            <span className="text-text-muted flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+            <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
               <i className="fa-solid fa-id-badge text-xs w-4 text-accent-primary" />{" "}
               User ID
             </span>
-            <span className="font-mono text-xs text-text-secondary bg-bg-secondary px-2 py-0.5 rounded border border-border">
+            <span className="font-mono text-xs text-text-secondary bg-bg-secondary px-2 py-0.5 rounded border border-border truncate min-w-0">
               {user?.id || user?.documentId || "Local ID"}
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex items-center justify-between">
-            <span className="text-text-muted flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+            <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
               <i className="fa-solid fa-shield-halved text-xs w-4 text-accent-primary" />{" "}
               Status
             </span>

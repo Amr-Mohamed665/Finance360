@@ -27,7 +27,7 @@ export default function Input({
 
       <div
         className={[
-          'relative flex items-center rounded-md border bg-bg-tertiary/60 backdrop-blur-sm transition-all duration-150',
+          'relative flex items-center rounded-md border bg-bg-tertiary/60 backdrop-blur-sm transition-all duration-150 min-w-0',
           error
             ? 'border-expense/60 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
             : 'border-border focus-within:border-accent-primary/50 focus-within:shadow-[0_0_12px_rgba(99,102,241,0.15)]',

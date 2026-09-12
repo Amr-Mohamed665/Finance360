@@ -90,8 +90,8 @@ export default function Sidebar({ isOpen, onClose }) {
           "md:translate-x-0",
         ].join(" ")}
       >
-        {/* Top Header / Brand */}
-        <div>
+        {/* Top Header / Brand + Nav (scrollable) */}
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto">
           <div className="flex items-center justify-between px-5 h-20 border-b border-border/60">
             <div className="flex items-center gap-3.5">
               <div className="relative">
@@ -188,7 +188,7 @@ export default function Sidebar({ isOpen, onClose }) {
         </div>
 
         {/* Bottom Section: User Profile & Logout */}
-        <div className="p-3 border-t border-border/60 flex flex-col gap-2 bg-gradient-to-t from-bg-primary/50 to-transparent">
+        <div className="p-3 border-t border-border/60 flex flex-col gap-2 bg-gradient-to-t from-bg-primary/50 to-transparent flex-shrink-0">
           {/* User Profile Card */}
           <NavLink
             to="/profile"

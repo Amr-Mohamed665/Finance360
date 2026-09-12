@@ -89,7 +89,7 @@ export default function EditProfilePage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 animate-fade-in max-w-3xl mx-auto w-full">
+    <div className="flex flex-col gap-6 animate-fade-in max-w-3xl mx-auto w-full px-1 sm:px-0">
       {/* Top Breadcrumb/Back & Header */}
       <div>
         <Link
