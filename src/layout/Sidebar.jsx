@@ -83,7 +83,7 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Sidebar Container */}
       <aside
         className={[
-          "fixed top-0 left-0 h-screen z-50 w-64 flex flex-col justify-between",
+          "fixed top-0 left-0 h-[100dvh] max-h-[100dvh] z-50 w-64 flex flex-col overflow-hidden",
           "bg-bg-sidebar/95 backdrop-blur-xl border-r border-border/80 shadow-2xl",
           "transition-transform duration-300 ease-smooth",
           isOpen ? "translate-x-0" : "-translate-x-full",
@@ -91,8 +91,8 @@ export default function Sidebar({ isOpen, onClose }) {
         ].join(" ")}
       >
         {/* Top Header / Brand + Nav (scrollable) */}
-        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto">
-          <div className="flex items-center justify-between px-5 h-20 border-b border-border/60">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto no-scrollbar">
+          <div className="flex items-center justify-between px-5 h-20 border-b border-border/60 flex-shrink-0">
             <div className="flex items-center gap-3.5">
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center shadow-lg flex-shrink-0 ring-1 ring-inset ring-white/5">
@@ -125,7 +125,7 @@ export default function Sidebar({ isOpen, onClose }) {
           </div>
 
           {/* Navigation Section */}
-          <div className="px-3 pt-4">
+          <div className="px-3 pt-4 pb-2">
             <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-text-muted/60">
               Overview & Tools
             </p>
@@ -188,7 +188,7 @@ export default function Sidebar({ isOpen, onClose }) {
         </div>
 
         {/* Bottom Section: User Profile & Logout */}
-        <div className="p-3 border-t border-border/60 flex flex-col gap-2 bg-gradient-to-t from-bg-primary/50 to-transparent flex-shrink-0">
+        <div className="p-3 pb-6 md:pb-3 border-t border-border/60 flex flex-col gap-2 bg-gradient-to-t from-bg-primary/95 to-bg-sidebar flex-shrink-0">
           {/* User Profile Card */}
           <NavLink
             to="/profile"

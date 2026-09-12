@@ -143,37 +143,39 @@ export default function ProfilePage() {
       {/* Details Card */}
       <Card title="Account Details">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0 overflow-hidden">
             <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
-              <i className="fa-solid fa-user text-xs w-4 text-accent-primary" />{" "}
+              <i className="fa-solid fa-user text-xs w-4 text-accent-primary flex-shrink-0" />{" "}
               Username
             </span>
-            <span className="font-semibold text-text-primary truncate min-w-0">
+            <span className="font-semibold text-text-primary text-xs sm:text-sm truncate min-w-0 sm:text-right">
               {displayName}
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0 overflow-hidden">
             <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
-              <i className="fa-solid fa-envelope text-xs w-4 text-accent-primary" />{" "}
+              <i className="fa-solid fa-envelope text-xs w-4 text-accent-primary flex-shrink-0" />{" "}
               Email
             </span>
-            <span className="font-semibold text-text-primary truncate min-w-0 break-all sm:break-normal">{email}</span>
+            <span className="font-semibold text-text-primary text-xs sm:text-sm break-all sm:text-right min-w-0">
+              {email}
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0 overflow-hidden">
             <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
-              <i className="fa-solid fa-id-badge text-xs w-4 text-accent-primary" />{" "}
+              <i className="fa-solid fa-id-badge text-xs w-4 text-accent-primary flex-shrink-0" />{" "}
               User ID
             </span>
-            <span className="font-mono text-xs text-text-secondary bg-bg-secondary px-2 py-0.5 rounded border border-border truncate min-w-0">
+            <span className="font-mono text-xs text-text-secondary bg-bg-secondary px-2 py-0.5 rounded border border-border break-all sm:text-right min-w-0 w-fit sm:w-auto">
               {user?.id || user?.documentId || "Local ID"}
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 min-w-0">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary/40 border border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0 overflow-hidden">
             <span className="text-text-muted flex items-center gap-2 flex-shrink-0">
-              <i className="fa-solid fa-shield-halved text-xs w-4 text-accent-primary" />{" "}
+              <i className="fa-solid fa-shield-halved text-xs w-4 text-accent-primary flex-shrink-0" />{" "}
               Status
             </span>
             <span className="text-xs font-semibold text-income flex items-center gap-1.5">
